@@ -1,0 +1,85 @@
+{
+    "customers": [
+        {
+            "name": "Maija Mallitehtävä",
+            "address":
+            {
+                "street": "Havainnollistuskuja 2",
+                "city": "Javala",
+                "postalCode": "01337"
+            },
+            "phoneNumber":
+                [
+                    {
+                        "type": "home",
+                        "number": "1010101010"
+                    },
+                    {
+                        "type": "work",
+                        "number": "0101010101"
+                    }
+                ]
+        },
+        {
+            "name": "Erkki Esimerkki",
+            "address":
+            {
+                "street": "Keksittykatu 3",
+                "city": "Mielikuvituksela",
+                "postalCode": "94853"
+            },
+            "phoneNumber":
+                [
+                    {
+                        "type": "home",
+                        "number": "1234567890"
+                    },
+                    {
+                        "type": "work",
+                        "number": "0987654321"
+                    }
+                ]
+        },
+        {
+            "name": "Jukka Javakoodari",
+            "address":
+            {
+                "street": "Katu 1",
+                "city": "Kaupunni",
+                "postalCode": "84848"
+            },
+            "phoneNumber":
+                [
+                    {
+                        "type": "home",
+                        "number": "2222222222"
+                    },
+                    {
+                        "type": "work",
+                        "number": "3333333333"
+                    }
+                ]
+        },
+        {
+            "name": "Antti Applikaatio",
+            "address":
+            {
+                "street": "Suorituskuja 7",
+                "city": "Kääntölä",
+                "postalCode": "44445"
+            },
+            "phoneNumber":
+                [
+                    {
+                        "type": "home",
+                        "number": "9999999991"
+                    },
+                    {
+                        "type": "work",
+                        "number": "1111111119"
+                    }
+                ]
+        }
+
+    ]
+}
