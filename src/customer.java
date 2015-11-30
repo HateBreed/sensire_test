@@ -31,7 +31,7 @@ public class customer implements Customer {
 
 	@Override
 	public void setName(String name) {
-		if(name.length() > 0) iName = name;
+		if(name != null && name.length() > 0) iName = name;
 		
 	}
 
@@ -42,6 +42,7 @@ public class customer implements Customer {
 
 	@Override
 	public PhoneNumber getNumber(String type) {
+		if(type == null || type.length() == 0) return null;
 		Iterator<PhoneNumber> i = iPhoneNumbers.iterator();
 		while(i.hasNext()) {
 			PhoneNumber number = i.next();
@@ -78,15 +79,19 @@ public class customer implements Customer {
 		StringWriter out = new StringWriter();
 		JSONObject obj = new JSONObject();
 		
+		// Add customer name to JSON
 		obj.put("name", getName());
+		
+		// Add address to JSON by calling Address.getJSON()
 		obj.put("address",this.getAddress().getJSON());
 		
+		// Add phone numbers as array
 		JSONArray numbers = new JSONArray();
+		obj.put("phoneNumber",numbers);
 		
+		// Go through phone numbers of customer and add each as separate JSONObject into array
 		Iterator<PhoneNumber> iter = this.getNumbers().iterator();
 		while(iter.hasNext()) numbers.add(iter.next().getJSON());
-		
-		obj.put("phoneNumber",numbers);
 		
 		try { 
 			obj.writeJSONString(out);

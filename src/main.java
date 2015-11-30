@@ -26,7 +26,11 @@ public class main {
 		try {
 			// Read JSON from file to database and when successful, sort
 			if(processer.DecodeJSON(file)) {
+				System.out.println("Read from \"" + file + "\":");
+				db.getInstance().print();
 				db.getInstance().sort();
+				System.out.println("\nDatabase sorted, contains:");
+				db.getInstance().print();
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -65,7 +69,7 @@ public class main {
 				}
 				
 				// Print either, reply or response
-				System.out.println(reply);
+				System.out.println("\n" + reply);
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

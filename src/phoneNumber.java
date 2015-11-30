@@ -31,9 +31,7 @@ public class phoneNumber implements PhoneNumber {
 
 	@Override
 	public void setType(String type) {
-		if(type != null && type.length() > 0) {
-			iType = type;
-		}
+		if(type != null && type.length() > 0) iType = type;
 	}
 
 	@Override
@@ -44,8 +42,11 @@ public class phoneNumber implements PhoneNumber {
 	@Override
 	public JSONObject getJSON() {
 		JSONObject obj = new JSONObject();
+		
+		// Add type and number to JSONObject
 		obj.put("type", getType());
 		obj.put("number",getNumber());
+		
 		StringWriter out = new StringWriter();
 		try { 
 			obj.writeJSONString(out);
