@@ -32,6 +32,7 @@ public class address implements Address {
 	 */
 	private Integer StringCodeToInt(String code) {
 		Integer postalcode = 0;
+		if(code == null || code.length() == 0) return null;
 		try {
 			postalcode = Integer.parseInt(code);
 		} catch (NumberFormatException e) {
@@ -54,17 +55,17 @@ public class address implements Address {
 
 	@Override
 	public void setStreet(String street) {
-		if(street.length() > 0) iStreet = street;
+		if(street != null && street.length() > 0) iStreet = street;
 	}
 
 	@Override
 	public void setCity(String city) {
-		if(city.length() > 0) iCity = city;
+		if(city != null && city.length() > 0) iCity = city;
 	}
 
 	@Override
 	public void setPostalCode(String code) {
-		if(code.length() > 0) iPostalCode = StringCodeToInt(code);
+		if(code != null && code.length() > 0) iPostalCode = StringCodeToInt(code);
 	}
 
 	@Override
@@ -80,9 +81,12 @@ public class address implements Address {
 	@Override
 	public JSONObject getJSON() {
 		JSONObject obj = new JSONObject();
+		
+		// Add street, city and postal code to JSONObject
 		obj.put("street", getStreet());
 		obj.put("city", getCity());
 		obj.put("postalCode", getPostalCodeString());
+		
 		StringWriter out = new StringWriter();
 		try { 
 			obj.writeJSONString(out);

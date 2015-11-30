@@ -46,37 +46,49 @@ public class processJSON implements ProcessJSON {
 		FileReader reader = new FileReader(JSONPath);
 		JSONObject jsonobj = (JSONObject)parser.parse(reader);
 		
-		// First check that it has the correct identifier
-		if(jsonobj.containsKey(mainIdentifier)) {
+		// First check that it has the correct identifier and contains a JSONArray
+		if(jsonobj.containsKey(mainIdentifier) && 
+				jsonobj.get(mainIdentifier).getClass().getSimpleName().toString().compareTo(
+						JSONArray.class.getSimpleName().toString())==0) {
 			
 			JSONArray jsonarray = (JSONArray)jsonobj.get(mainIdentifier);
 			
+			// Iterate through array
 			Iterator<JSONObject> iter = jsonarray.iterator();
 			
 			while(iter.hasNext()) {
 				JSONObject entry = iter.next();
+				
+				// Verify that the main JSONObject contains at least one of each required field
 				if(verifyJSON(entry)) {
 					
+					// Get customer name
 					Customer cust = new customer(entry.get(mainItems[NAME_POS]).toString());
 					
+					// Get address and add it to customer object
 					JSONObject address = (JSONObject)entry.get(mainItems[ADDRESS_POS]);
 					cust.setAddress(new address(address.get(addressItems[STREET_POS]).toString(), 
 							address.get(addressItems[CITY_POS]).toString(),
 							address.get(addressItems[CODE_POS]).toString()));
 					
+					// Get phone numbers as JSONArray and iterate through it
 					JSONArray numbers = (JSONArray)entry.get(mainItems[PHONE_POS]);
 					Iterator<JSONObject> numbiter = numbers.iterator();
 					while(numbiter.hasNext()) {
+						// Get number and add it to customer object
 						JSONObject numbobj = numbiter.next();
 						cust.addNumber(new phoneNumber(numbobj.get(numberItems[TYPE_POS]).toString(),
 								numbobj.get(numberItems[NUMBER_POS]).toString()));
 					}
+					// If customer cannot added, return
 					if(!db.getInstance().add(cust)) return false;
 				}
+				// Invalid JSON
 				else throw new JSONException("JSON in file \"" + JSONPath + "\" is invalid");
 			}
 		}
-		else throw new JSONException("JSON in file \"" + JSONPath + "\" is invalid");
+		else throw new JSONException("JSON in file \"" + JSONPath + "\" is invalid, does not contain " + mainIdentifier + 
+				"or does not contain " + JSONArray.class.getSimpleName().toString());
 		return true;
 		
 	}
