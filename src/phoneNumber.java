@@ -31,12 +31,14 @@ public class phoneNumber implements PhoneNumber {
 
 	@Override
 	public void setType(String type) {
-		if(type.length() > 0) iType = type;
+		if(type != null && type.length() > 0) {
+			iType = type;
+		}
 	}
 
 	@Override
 	public void setNumber(String number) {
-		if(number.length() > 0) iNumber = number;
+		if(number != null && number.length() > 0) iNumber = number;
 	}
 
 	@Override

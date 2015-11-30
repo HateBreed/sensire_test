@@ -10,6 +10,9 @@ public class address implements Address {
 	private String iCity = "";
 	private Integer iPostalCode = 0;
 	
+	/**
+	 * Private constructor, never used
+	 */
 	private address() {
 		iStreet = "";
 		iCity = "";
@@ -22,6 +25,11 @@ public class address implements Address {
 		iPostalCode = StringCodeToInt(postalcode);
 	}
 	
+	/**
+	 * Transform the string format postal code to integer
+	 * @param code postal code
+	 * @return Integer representation of the postalcode
+	 */
 	private Integer StringCodeToInt(String code) {
 		Integer postalcode = 0;
 		try {
@@ -31,6 +39,7 @@ public class address implements Address {
 		}
 		return postalcode;
 	}
+	
 	
 	@Override
 	public String getStreet() {
