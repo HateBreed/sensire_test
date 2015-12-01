@@ -64,12 +64,13 @@ public class address implements Address {
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject getJSON() {
+		StringStorage st = stringStorage.getInstance();
 		JSONObject obj = new JSONObject();
 		
 		// Add street, city and postal code to JSONObject
-		obj.put("street", getStreet());
-		obj.put("city", getCity());
-		obj.put("postalCode", getPostalCodeString());
+		obj.put(st.getAddressStrings()[st.getStreetPosition()], getStreet());
+		obj.put(st.getAddressStrings()[st.getCityPosition()], getCity());
+		obj.put(st.getAddressStrings()[st.getPostalCodePosition()], getPostalCodeString());
 		
 		if(utils.getInstance().writeJSONString(obj)) return obj;
 		return null;

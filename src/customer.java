@@ -76,17 +76,18 @@ public class customer implements Customer {
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject getJSON() {
+		StringStorage st = stringStorage.getInstance();
 		JSONObject obj = new JSONObject();
 		
 		// Add customer name to JSON
-		obj.put("name", getName());
+		obj.put(st.getMainStrings()[st.getNamePosition()], getName());
 		
 		// Add address to JSON by calling Address.getJSON()
-		obj.put("address",this.getAddress().getJSON());
+		obj.put(st.getMainStrings()[st.getAddressPosition()],this.getAddress().getJSON());
 		
 		// Add phone numbers as array
 		JSONArray numbers = new JSONArray();
-		obj.put("phoneNumber",numbers);
+		obj.put(st.getMainStrings()[st.getPhoneNumberPosition()],numbers);
 		
 		// Go through phone numbers of customer and add each as separate JSONObject into array
 		Iterator<PhoneNumber> iter = this.getNumbers().iterator();

@@ -40,11 +40,12 @@ public class phoneNumber implements PhoneNumber {
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject getJSON() {
+		StringStorage st = stringStorage.getInstance();
 		JSONObject obj = new JSONObject();
 		
 		// Add type and number to JSONObject
-		obj.put("type", getType());
-		obj.put("number",getNumber());
+		obj.put(st.getPhoneNumberStrings()[st.getTypePosition()], getType());
+		obj.put(st.getPhoneNumberStrings()[st.getNumberPosition()],getNumber());
 		
 		if(utils.getInstance().writeJSONString(obj)) return obj;
 		return null;

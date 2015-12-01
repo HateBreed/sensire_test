@@ -44,13 +44,14 @@ public class processJSON implements ProcessJSON {
 		// Read and parse JSON
 		FileReader reader = new FileReader(JSONPath);
 		JSONObject jsonobj = (JSONObject)parser.parse(reader);
+		StringStorage st = stringStorage.getInstance();
 
 		// First check that it has the correct identifier and contains a JSONArray
-		if(jsonobj.containsKey(mainIdentifier) && 
-				jsonobj.get(mainIdentifier).getClass().getSimpleName().toString().compareTo(
+		if(jsonobj.containsKey(st.getIdentifierString()) && 
+				jsonobj.get(st.getIdentifierString()).getClass().getSimpleName().toString().compareTo(
 						JSONArray.class.getSimpleName().toString())==0) {
 			
-			JSONArray jsonarray = (JSONArray)jsonobj.get(mainIdentifier);
+			JSONArray jsonarray = (JSONArray)jsonobj.get(st.getIdentifierString());
 			
 			// Iterate through array
 			Iterator<JSONObject> iter = jsonarray.iterator();
@@ -62,22 +63,22 @@ public class processJSON implements ProcessJSON {
 				if(verifyJSON(entry)) {
 					
 					// Get customer name
-					Customer cust = new customer(entry.get(mainItems[NAME_POS]).toString());
+					Customer cust = new customer(entry.get(st.getMainStrings()[st.getNamePosition()]).toString());
 					
 					// Get address and add it to customer object
-					JSONObject address = (JSONObject)entry.get(mainItems[ADDRESS_POS]);
-					cust.setAddress(new address(address.get(addressItems[STREET_POS]).toString(), 
-							address.get(addressItems[CITY_POS]).toString(),
-							address.get(addressItems[CODE_POS]).toString()));
+					JSONObject address = (JSONObject)entry.get(st.getMainStrings()[st.getAddressPosition()]);
+					cust.setAddress(new address(address.get(st.getAddressStrings()[st.getStreetPosition()]).toString(), 
+							address.get(st.getAddressStrings()[st.getCityPosition()]).toString(),
+							address.get(st.getAddressStrings()[st.getPostalCodePosition()]).toString()));
 					
 					// Get phone numbers as JSONArray and iterate through it
-					JSONArray numbers = (JSONArray)entry.get(mainItems[PHONE_POS]);
+					JSONArray numbers = (JSONArray)entry.get(st.getMainStrings()[st.getPhoneNumberPosition()]);
 					Iterator<JSONObject> numbiter = numbers.iterator();
 					while(numbiter.hasNext()) {
 						// Get number and add it to customer object
 						JSONObject numbobj = numbiter.next();
-						cust.addNumber(new phoneNumber(numbobj.get(numberItems[TYPE_POS]).toString(),
-								numbobj.get(numberItems[NUMBER_POS]).toString()));
+						cust.addNumber(new phoneNumber(numbobj.get(st.getPhoneNumberStrings()[st.getTypePosition()]).toString(),
+								numbobj.get(st.getPhoneNumberStrings()[st.getNumberPosition()]).toString()));
 					}
 					// If customer cannot added, return
 					if(!db.getInstance().add(cust)) return false;
@@ -99,8 +100,8 @@ public class processJSON implements ProcessJSON {
 		JSONObject json = new JSONObject();
 		JSONArray items = new JSONArray();
 		
-		// Put the "customer" string into the beginning of new JSONObject
-		json.put(mainIdentifier, items);
+		// Put the "customers" string into the beginning of new JSONObject
+		json.put(stringStorage.getInstance().getIdentifierString(), items);
 		
 		// Go through the customer list and add each individually
 		Iterator<Customer> iter = db.getInstance().getDB().iterator();
@@ -116,18 +117,19 @@ public class processJSON implements ProcessJSON {
 	@Override
 	public boolean verifyJSON(JSONObject obj) {
 
-		for(int pos = 0 ; pos < mainItems.length; pos++) {
+		StringStorage st = stringStorage.getInstance();
+		for(int pos = 0 ; pos < st.getMainStrings().length; pos++) {
 		
-			if(obj.containsKey(mainItems[pos])) {
+			if(obj.containsKey(st.getMainStrings()[pos])) {
 				
 				// Address items
-				if(pos == ADDRESS_POS) {
-					if(!jsonVerifyObject(obj, mainItems[pos], addressItems)) return false;
+				if(pos == st.getAddressPosition()) {
+					if(!jsonVerifyObject(obj, st.getMainStrings()[pos], st.getAddressStrings())) return false;
 				}
 				
 				// Phone number items
-				if(pos == PHONE_POS) {
-					if(!jsonVerifyObject(obj, mainItems[pos], numberItems)) return false;
+				if(pos == st.getPhoneNumberPosition()) {
+					if(!jsonVerifyObject(obj, st.getMainStrings()[pos], st.getPhoneNumberStrings())) return false;
 				}
 			}
 		}
