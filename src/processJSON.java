@@ -109,12 +109,8 @@ public class processJSON implements ProcessJSON {
 			items.add(iter.next().getJSON());
 		}
 		
-		try { 
-			json.writeJSONString(utils.getInstance().getWriter());
-		} catch (IOException ie) {
-			throw ie;
-		}
-		return json;
+		if(utils.getInstance().writeJSONString(json)) return json;
+		else return null;
 	}
 	
 	@Override
