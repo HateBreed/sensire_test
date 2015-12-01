@@ -1,6 +1,3 @@
-import java.io.IOException;
-import java.io.StringWriter;
-
 import org.json.simple.JSONObject;
 
 
@@ -9,6 +6,7 @@ public class phoneNumber implements PhoneNumber {
 	private String iType = "";
 	private String iNumber;
 	
+	@SuppressWarnings("unused")
 	private phoneNumber() {
 		iType = "";
 		iNumber = "";
@@ -39,6 +37,7 @@ public class phoneNumber implements PhoneNumber {
 		if(number != null && number.length() > 0) iNumber = number;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject getJSON() {
 		JSONObject obj = new JSONObject();
@@ -47,13 +46,8 @@ public class phoneNumber implements PhoneNumber {
 		obj.put("type", getType());
 		obj.put("number",getNumber());
 		
-		StringWriter out = new StringWriter();
-		try { 
-			obj.writeJSONString(out);
-		} catch (IOException ie) {
-			return null;
-		}
-		return obj;
+		if(utils.getInstance().writeJSONString(obj)) return obj;
+		return null;
 	}
 
 	@Override

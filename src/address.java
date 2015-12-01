@@ -1,6 +1,3 @@
-import java.io.IOException;
-import java.io.StringWriter;
-
 import org.json.simple.JSONObject;
 
 
@@ -8,21 +5,22 @@ public class address implements Address {
 
 	private String iStreet = "";
 	private String iCity = "";
-	private Integer iPostalCode = 0;
+	private String iPostalCode = "";
 	
 	/**
 	 * Private constructor, never used
 	 */
+	@SuppressWarnings("unused")
 	private address() {
 		iStreet = "";
 		iCity = "";
-		iPostalCode = 0;
+		iPostalCode = "";
 	}
 	
 	public address(String street, String city, String postalcode) {
 		iStreet = street;
 		iCity = city;
-		iPostalCode = StringCodeToInt(postalcode);
+		iPostalCode = postalcode;
 	}
 	
 	/**
@@ -65,19 +63,21 @@ public class address implements Address {
 
 	@Override
 	public void setPostalCode(String code) {
-		if(code != null && code.length() > 0) iPostalCode = StringCodeToInt(code);
+		// Allow 5 digit codes only
+		if(code != null && code.length() == 5) iPostalCode = code;
 	}
 
 	@Override
 	public String getPostalCodeString() {
-		return iPostalCode.toString();
+		return iPostalCode;
 	}
 
 	@Override
 	public int getPostalCodeInt() {
-		return iPostalCode;
+		return StringCodeToInt(iPostalCode);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject getJSON() {
 		JSONObject obj = new JSONObject();
@@ -87,13 +87,8 @@ public class address implements Address {
 		obj.put("city", getCity());
 		obj.put("postalCode", getPostalCodeString());
 		
-		StringWriter out = new StringWriter();
-		try { 
-			obj.writeJSONString(out);
-		} catch (IOException ie) {
-			return null;
-		}
-		return obj;
+		if(utils.getInstance().writeJSONString(obj)) return obj;
+		return null;
 	}
 
 	@Override

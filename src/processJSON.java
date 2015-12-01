@@ -2,7 +2,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.json.simple.JSONArray;
@@ -38,6 +37,7 @@ public class processJSON implements ProcessJSON {
 		out = new StringWriter();
 		
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean DecodeJSON(String JSONPath) throws FileNotFoundException, 
 		IOException, ParseException, JSONException {
@@ -45,7 +45,7 @@ public class processJSON implements ProcessJSON {
 		// Read and parse JSON
 		FileReader reader = new FileReader(JSONPath);
 		JSONObject jsonobj = (JSONObject)parser.parse(reader);
-		
+		System.out.println(jsonobj.toString().length() + " " + jsonobj.toString());
 		// First check that it has the correct identifier and contains a JSONArray
 		if(jsonobj.containsKey(mainIdentifier) && 
 				jsonobj.get(mainIdentifier).getClass().getSimpleName().toString().compareTo(
@@ -93,6 +93,7 @@ public class processJSON implements ProcessJSON {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject EncodeJSON() throws IOException {
 		
@@ -145,6 +146,7 @@ public class processJSON implements ProcessJSON {
 	 * @param list The strings the inner object should contain
 	 * @return true when all strings are found within object or array
 	 */
+	@SuppressWarnings("unchecked")
 	private boolean jsonVerifyObject(JSONObject obj, String objname, String[] list) {
 		
 		// If the obj contains a plain JSONObject
