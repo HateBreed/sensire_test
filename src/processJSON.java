@@ -10,32 +10,14 @@ import org.json.simple.parser.ParseException;
 
 
 public class processJSON implements ProcessJSON {
-	
-	private static String mainIdentifier = "customers";
-	private static String[] mainItems = {"name", "address", "phoneNumber"};
-	private static int NAME_POS = 0;
-	private static int ADDRESS_POS = 1;
-	private static int PHONE_POS = 2;
-	
-	private static String[] addressItems = { "street", "city", "postalCode"};
-	private static int STREET_POS = 0;
-	private static int CITY_POS = 1;
-	private static int CODE_POS = 2;
-	
-	private static String[] numberItems = {"type", "number"};
-	private static int TYPE_POS = 0;
-	private static int NUMBER_POS = 1;
-	
+
 	private JSONParser parser = null;
-	//private StringWriter out = null;
-	
 	
 	@Override
 	public void Initialize() {
 		parser = new JSONParser();
-		//out = new StringWriter();
-		
 	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean DecodeJSON(String JSONPath) throws FileNotFoundException, 
@@ -78,7 +60,7 @@ public class processJSON implements ProcessJSON {
 						// Get number and add it to customer object
 						JSONObject numbobj = numbiter.next();
 						cust.addNumber(new phoneNumber(numbobj.get(st.getPhoneNumberStrings()[st.getTypePosition()]).toString(),
-								numbobj.get(st.getPhoneNumberStrings()[st.getNumberPosition()]).toString()));
+								numbobj.get(st.getPhoneNumberStrings()[st.getPhoneNumberPosition()]).toString()));
 					}
 					// If customer cannot added, return
 					if(!db.getInstance().add(cust)) return false;
@@ -87,7 +69,7 @@ public class processJSON implements ProcessJSON {
 				else throw new JSONException("JSON in file \"" + JSONPath + "\" is invalid");
 			}
 		}
-		else throw new JSONException("JSON in file \"" + JSONPath + "\" is invalid, does not contain " + mainIdentifier + 
+		else throw new JSONException("JSON in file \"" + JSONPath + "\" is invalid, does not contain " + st.getIdentifierString() + 
 				"or does not contain " + JSONArray.class.getSimpleName().toString());
 		return true;
 		
