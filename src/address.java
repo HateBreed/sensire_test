@@ -20,25 +20,8 @@ public class address implements Address {
 	public address(String street, String city, String postalcode) {
 		iStreet = street;
 		iCity = city;
-		iPostalCode = postalcode;
+		if(postalcode != null && postalcode.length() == 5 && utils.getInstance().isNumeric(postalcode)) iPostalCode = postalcode;
 	}
-	
-	/**
-	 * Transform the string format postal code to integer
-	 * @param code postal code
-	 * @return Integer representation of the postalcode
-	 */
-	private Integer StringCodeToInt(String code) {
-		Integer postalcode = 0;
-		if(code == null || code.length() == 0) return null;
-		try {
-			postalcode = Integer.parseInt(code);
-		} catch (NumberFormatException e) {
-			postalcode = -1;
-		}
-		return postalcode;
-	}
-	
 	
 	@Override
 	public String getStreet() {
@@ -64,7 +47,7 @@ public class address implements Address {
 	@Override
 	public void setPostalCode(String code) {
 		// Allow 5 digit codes only
-		if(code != null && code.length() == 5) iPostalCode = code;
+		if(code != null && code.length() == 5 && utils.getInstance().isNumeric(code)) iPostalCode = code;
 	}
 
 	@Override
@@ -74,7 +57,8 @@ public class address implements Address {
 
 	@Override
 	public int getPostalCodeInt() {
-		return StringCodeToInt(iPostalCode);
+		// Postal code never exceeds the limit of Integer so it can be transformed to int
+		return utils.getInstance().StringToInt(iPostalCode).intValue();
 	}
 
 	@SuppressWarnings("unchecked")

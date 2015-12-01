@@ -50,29 +50,29 @@ public class main {
 			// Create JSON representation of the database
 			JSONObject json = processer.EncodeJSON();
 			
-//			if(json != null && address != null) {
-//				JSONSender sender = new jsonSender();
-//				
-//				// Initialize with address
-//				if(!sender.initialize(address)) return;
-//				
-//				// Send the JSON
-//				if(!sender.sendHTTPPost(json)) return;
-//				
-//				// Try to read server reply
-//				String reply = sender.readReply();
-//				
-//				// No reply, read response code
-//				if(reply.length() == 0) {
-//					reply = sender.getResponse();
-//				}
-//				
-//				// Print either, reply or response
-//				System.out.println("\n" + reply);
-//				
-//				// Close
-//				sender.close();
-//			}
+			if(json != null && address != null) {
+				JSONSender sender = new jsonSender();
+				
+				// Initialize with address
+				if(!sender.initialize(address)) return;
+				
+				// Send the JSON
+				if(!sender.sendHTTPPost(json)) return;
+				
+				// Try to read server reply
+				String reply = sender.readReply();
+				
+				// No reply, read response code
+				if(reply.length() == 0) {
+					reply = sender.getResponse();
+				}
+				
+				// Print either, reply or response
+				System.out.println("\n" + reply);
+				
+				// Close
+				sender.close();
+			}
 		} catch (MalformedURLException e) {
 			System.out.println("URL is invalid: " + e.getLocalizedMessage());
 		} catch (IOException e) {

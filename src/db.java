@@ -92,8 +92,8 @@ public class db implements DataBase {
 		while(iter.hasNext()) {
 			Customer c = iter.next();
 			System.out.println("Name: " + c.getName());
-			System.out.println("Address: " + c.getAddress().getStreet() + "," 
-					+ c.getAddress().getCity() + "," 
+			System.out.println("Address: " + c.getAddress().getStreet() + ", " 
+					+ c.getAddress().getCity() + ", " 
 					+ c.getAddress().getPostalCodeString());
 			Iterator<PhoneNumber> numbers = c.getNumbers().iterator();
 			

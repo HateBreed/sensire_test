@@ -4,7 +4,7 @@ import org.json.simple.JSONObject;
 public class phoneNumber implements PhoneNumber {
 	
 	private String iType = "";
-	private String iNumber;
+	private String iNumber = "";
 	
 	@SuppressWarnings("unused")
 	private phoneNumber() {
@@ -14,7 +14,7 @@ public class phoneNumber implements PhoneNumber {
 	
 	public phoneNumber(String type, String number) {
 		iType = type;
-		iNumber = number;
+		if(number != null && number.length() > 0 && utils.getInstance().isNumeric(number)) iNumber = number;
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class phoneNumber implements PhoneNumber {
 
 	@Override
 	public void setNumber(String number) {
-		if(number != null && number.length() > 0) iNumber = number;
+		if(number != null && number.length() > 0 && utils.getInstance().isNumeric(number)) iNumber = number;
 	}
 
 	@SuppressWarnings("unchecked")
