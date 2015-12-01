@@ -44,25 +44,22 @@ public class utils implements Utils {
 
 	@Override
 	public boolean isNumeric(String in) {
-		if(StringToInt(in).intValue() == -1) return false;
+		if(StringToInt(in) == null) return false;
 		return true;
 	}
 	
 	@Override
-	public BigInteger StringToInt(String code) {
-		BigInteger intcode = null;
+	public BigInteger StringToInt(String str) {
+		BigInteger strint = null;
 		
 		// Basic check for string
-		if(code == null || code.length() == 0) intcode = new BigInteger("-1");
+		if(str == null || str.length() == 0) return strint;
 		try {
 			// Try to create new Big Integer
-			intcode = new BigInteger(code);
+			strint = new BigInteger(str);
 		} catch (NumberFormatException e) {
-			intcode = new BigInteger("-1");
+			
 		}
-		return intcode;
+		return strint;
 	}
-	
-	
-
 }
