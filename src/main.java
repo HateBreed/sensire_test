@@ -20,17 +20,17 @@ public class main {
 		else file = args[0];
 		
 		// Initialize JSON processing engine
-		ProcessJSON processer = new processJSON();
+		ProcessJSON processer = new ProcessJSONImpl();
 		processer.Initialize();
 		
 		try {
 			// Read JSON from file to database and when successful, sort
 			if(processer.DecodeJSON(file)) {
 				System.out.println("Read from \"" + file + "\":");
-				db.getInstance().print();
-				db.getInstance().sort();
+				DataBaseImpl.getInstance().print();
+				DataBaseImpl.getInstance().sort();
 				System.out.println("\nDatabase sorted, contains:");
-				db.getInstance().print();
+				DataBaseImpl.getInstance().print();
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("File \"" + file + "\" not found");
@@ -51,7 +51,7 @@ public class main {
 			JSONObject json = processer.EncodeJSON();
 			
 			if(json != null && address != null) {
-				JSONSender sender = new jsonSender();
+				JSONSender sender = new JsonSenderImpl();
 				
 				// Initialize with address
 				if(!sender.initialize(address)) return;

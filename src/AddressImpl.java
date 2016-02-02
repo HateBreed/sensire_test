@@ -1,7 +1,7 @@
 import org.json.simple.JSONObject;
 
 
-public class address implements Address {
+public class AddressImpl implements Address {
 
 	private String iStreet = "";
 	private String iCity = "";
@@ -11,16 +11,16 @@ public class address implements Address {
 	 * Private constructor, never used
 	 */
 	@SuppressWarnings("unused")
-	private address() {
+	private AddressImpl() {
 		iStreet = "";
 		iCity = "";
 		iPostalCode = "";
 	}
 	
-	public address(String street, String city, String postalcode) {
+	public AddressImpl(String street, String city, String postalcode) {
 		iStreet = street;
 		iCity = city;
-		if(postalcode != null && postalcode.length() == 5 && utils.getInstance().isNumeric(postalcode)) iPostalCode = postalcode;
+		if(postalcode != null && postalcode.length() == 5 && UtilsImpl.getInstance().isNumeric(postalcode)) iPostalCode = postalcode;
 	}
 	
 	@Override
@@ -47,7 +47,7 @@ public class address implements Address {
 	@Override
 	public void setPostalCode(String code) {
 		// Allow 5 digit codes only
-		if(code != null && code.length() == 5 && utils.getInstance().isNumeric(code)) iPostalCode = code;
+		if(code != null && code.length() == 5 && UtilsImpl.getInstance().isNumeric(code)) iPostalCode = code;
 	}
 
 	@Override
@@ -58,13 +58,13 @@ public class address implements Address {
 	@Override
 	public int getPostalCodeInt() {
 		// Postal code never exceeds the limit of Integer so it can be transformed to int
-		return utils.getInstance().StringToInt(iPostalCode).intValue();
+		return UtilsImpl.getInstance().StringToInt(iPostalCode).intValue();
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject getJSON() {
-		StringStorage st = stringStorage.getInstance();
+		StringStorage st = StringStorageImpl.getInstance();
 		JSONObject obj = new JSONObject();
 		
 		// Add street, city and postal code to JSONObject
@@ -72,7 +72,7 @@ public class address implements Address {
 		obj.put(st.getAddressStrings()[st.getCityPosition()], getCity());
 		obj.put(st.getAddressStrings()[st.getPostalCodePosition()], getPostalCodeString());
 		
-		if(utils.getInstance().writeJSONString(obj)) return obj;
+		if(UtilsImpl.getInstance().writeJSONString(obj)) return obj;
 		return null;
 	}
 

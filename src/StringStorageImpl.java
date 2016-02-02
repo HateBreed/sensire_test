@@ -1,5 +1,5 @@
 
-public class stringStorage implements StringStorage {
+public class StringStorageImpl implements StringStorage {
 	
 	private static String mainIdentifier = "customers";
 	private static String[] mainItems = {"name", "address", "phoneNumber"};
@@ -18,12 +18,12 @@ public class stringStorage implements StringStorage {
 	
 	private static StringStorage storage = null;
 	
-	private stringStorage() {
+	private StringStorageImpl() {
 		
 	}
 	
 	public static StringStorage getInstance() {
-		if(storage == null) storage = new stringStorage();
+		if(storage == null) storage = new StringStorageImpl();
 		return storage;
 	}
 

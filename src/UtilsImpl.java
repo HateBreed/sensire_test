@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import org.json.simple.JSONObject;
 
 
-public class utils implements Utils {
+public class UtilsImpl implements Utils {
 	
 	private static Utils instance = null;
 	StringWriter out = null;
@@ -13,7 +13,7 @@ public class utils implements Utils {
 	/**
 	 * For singleton
 	 */
-	private utils() {
+	private UtilsImpl() {
 		out = new StringWriter();
 	}
 	
@@ -22,7 +22,7 @@ public class utils implements Utils {
 	 * @returns Utils instance
 	 */
 	public static Utils getInstance() {
-		if(instance == null) instance = new utils();
+		if(instance == null) instance = new UtilsImpl();
 		return instance;
 	}
 

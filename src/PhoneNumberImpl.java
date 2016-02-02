@@ -1,20 +1,20 @@
 import org.json.simple.JSONObject;
 
 
-public class phoneNumber implements PhoneNumber {
+public class PhoneNumberImpl implements PhoneNumber {
 	
 	private String iType = "";
 	private String iNumber = "";
 	
 	@SuppressWarnings("unused")
-	private phoneNumber() {
+	private PhoneNumberImpl() {
 		iType = "";
 		iNumber = "";
 	}
 	
-	public phoneNumber(String type, String number) {
+	public PhoneNumberImpl(String type, String number) {
 		iType = type;
-		if(number != null && number.length() > 0 && utils.getInstance().isNumeric(number)) iNumber = number;
+		if(number != null && number.length() > 0 && UtilsImpl.getInstance().isNumeric(number)) iNumber = number;
 	}
 
 	@Override
@@ -34,20 +34,20 @@ public class phoneNumber implements PhoneNumber {
 
 	@Override
 	public void setNumber(String number) {
-		if(number != null && number.length() > 0 && utils.getInstance().isNumeric(number)) iNumber = number;
+		if(number != null && number.length() > 0 && UtilsImpl.getInstance().isNumeric(number)) iNumber = number;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject getJSON() {
-		StringStorage st = stringStorage.getInstance();
+		StringStorage st = StringStorageImpl.getInstance();
 		JSONObject obj = new JSONObject();
 		
 		// Add type and number to JSONObject
 		obj.put(st.getPhoneNumberStrings()[st.getTypePosition()], getType());
 		obj.put(st.getPhoneNumberStrings()[st.getNumberPosition()],getNumber());
 		
-		if(utils.getInstance().writeJSONString(obj)) return obj;
+		if(UtilsImpl.getInstance().writeJSONString(obj)) return obj;
 		return null;
 	}
 

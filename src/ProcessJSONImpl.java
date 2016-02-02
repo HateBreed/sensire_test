@@ -9,7 +9,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 
-public class processJSON implements ProcessJSON {
+public class ProcessJSONImpl implements ProcessJSON {
 
 	private JSONParser parser = null;
 	
@@ -26,7 +26,7 @@ public class processJSON implements ProcessJSON {
 		// Read and parse JSON
 		FileReader reader = new FileReader(JSONPath);
 		JSONObject jsonobj = (JSONObject)parser.parse(reader);
-		StringStorage st = stringStorage.getInstance();
+		StringStorage st = StringStorageImpl.getInstance();
 
 		// First check that it has the correct identifier and contains a JSONArray
 		if(jsonobj.containsKey(st.getIdentifierString()) && 
@@ -45,11 +45,11 @@ public class processJSON implements ProcessJSON {
 				if(verifyJSON(entry)) {
 					
 					// Get customer name
-					Customer cust = new customer(entry.get(st.getMainStrings()[st.getNamePosition()]).toString());
+					Customer cust = new CustomerImpl(entry.get(st.getMainStrings()[st.getNamePosition()]).toString());
 					
 					// Get address and add it to customer object
 					JSONObject address = (JSONObject)entry.get(st.getMainStrings()[st.getAddressPosition()]);
-					cust.setAddress(new address(address.get(st.getAddressStrings()[st.getStreetPosition()]).toString(), 
+					cust.setAddress(new AddressImpl(address.get(st.getAddressStrings()[st.getStreetPosition()]).toString(), 
 							address.get(st.getAddressStrings()[st.getCityPosition()]).toString(),
 							address.get(st.getAddressStrings()[st.getPostalCodePosition()]).toString()));
 					
@@ -59,11 +59,11 @@ public class processJSON implements ProcessJSON {
 					while(numbiter.hasNext()) {
 						// Get number and add it to customer object
 						JSONObject numbobj = numbiter.next();
-						cust.addNumber(new phoneNumber(numbobj.get(st.getPhoneNumberStrings()[st.getTypePosition()]).toString(),
+						cust.addNumber(new PhoneNumberImpl(numbobj.get(st.getPhoneNumberStrings()[st.getTypePosition()]).toString(),
 								numbobj.get(st.getPhoneNumberStrings()[st.getPhoneNumberPosition()]).toString()));
 					}
 					// If customer cannot added, return
-					if(!db.getInstance().add(cust)) return false;
+					if(!DataBaseImpl.getInstance().add(cust)) return false;
 				}
 				// Invalid JSON
 				else throw new JSONException("JSON in file \"" + JSONPath + "\" is invalid");
@@ -83,23 +83,23 @@ public class processJSON implements ProcessJSON {
 		JSONArray items = new JSONArray();
 		
 		// Put the "customers" string into the beginning of new JSONObject
-		json.put(stringStorage.getInstance().getIdentifierString(), items);
+		json.put(StringStorageImpl.getInstance().getIdentifierString(), items);
 		
 		// Go through the customer list and add each individually
-		Iterator<Customer> iter = db.getInstance().getDB().iterator();
+		Iterator<Customer> iter = DataBaseImpl.getInstance().getDB().iterator();
 		while(iter.hasNext()) {
 			// Each Customer, Address and PhoneNumber creates JSONObjects from themselves
 			items.add(iter.next().getJSON());
 		}
 		
-		if(utils.getInstance().writeJSONString(json)) return json;
+		if(UtilsImpl.getInstance().writeJSONString(json)) return json;
 		else return null;
 	}
 	
 	@Override
 	public boolean verifyJSON(JSONObject obj) {
 
-		StringStorage st = stringStorage.getInstance();
+		StringStorage st = StringStorageImpl.getInstance();
 		for(int pos = 0 ; pos < st.getMainStrings().length; pos++) {
 		
 			if(obj.containsKey(st.getMainStrings()[pos])) {

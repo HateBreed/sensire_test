@@ -10,14 +10,14 @@ import java.net.URLEncoder;
 import org.json.simple.JSONObject;
 
 
-public class jsonSender implements JSONSender {
+public class JsonSenderImpl implements JSONSender {
 	private URL url = null;
 	private HttpURLConnection httpc = null;
 	
 	private DataOutputStream output = null;
 	private BufferedReader reader = null;
 
-	public jsonSender() {
+	public JsonSenderImpl() {
 	}
 	
 	@Override

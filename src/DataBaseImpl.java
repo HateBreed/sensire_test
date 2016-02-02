@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.Iterator;
 
 
-public class db implements DataBase {
+public class DataBaseImpl implements DataBase {
 	
 	private ArrayList<Customer> database = null;
 	private static DataBase instance = null;
@@ -13,7 +13,7 @@ public class db implements DataBase {
 	 * Private constructor, calls initDb();
 	 * @see #initDb()
 	 */
-	private db() {
+	private DataBaseImpl() {
 		initDb();
 	}
 	
@@ -22,7 +22,7 @@ public class db implements DataBase {
 	 * @return DataBase object
 	 */
 	public static DataBase getInstance() {
-		if(instance == null) instance = new db();
+		if(instance == null) instance = new DataBaseImpl();
 		return instance;
 	}
 	

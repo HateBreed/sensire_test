@@ -7,18 +7,18 @@ import org.json.simple.JSONObject;
 
 
 
-public class customer implements Customer {
+public class CustomerImpl implements Customer {
 	private String iName = "";
 	private Address iAddress = null;
 	private ArrayList<PhoneNumber> iPhoneNumbers = null;
 	
 	@SuppressWarnings("unused")
-	private customer() {
+	private CustomerImpl() {
 		iName = "";
 		iPhoneNumbers = new ArrayList<PhoneNumber>();
 	}
 	
-	public customer(String name) {
+	public CustomerImpl(String name) {
 		iName = name;
 		iPhoneNumbers = new ArrayList<PhoneNumber>();
 	}
@@ -76,7 +76,7 @@ public class customer implements Customer {
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject getJSON() {
-		StringStorage st = stringStorage.getInstance();
+		StringStorage st = StringStorageImpl.getInstance();
 		JSONObject obj = new JSONObject();
 		
 		// Add customer name to JSON
@@ -93,7 +93,7 @@ public class customer implements Customer {
 		Iterator<PhoneNumber> iter = this.getNumbers().iterator();
 		while(iter.hasNext()) numbers.add(iter.next().getJSON());
 		
-		if(utils.getInstance().writeJSONString(obj)) return obj;
+		if(UtilsImpl.getInstance().writeJSONString(obj)) return obj;
 		return null;
 	}
 
